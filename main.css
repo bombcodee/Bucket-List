@@ -100,12 +100,16 @@ main{
 
 #tasks .task {
   display: flex;
-  justify-content:  space-between;
+  justify-content: space-between;
   background-color: var(--darkest);
   padding:  1rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
 }
+
+#tasks .task .content{
+  flex: 1 1 0%;
+} 
 
 #tasks .task .content .text {
   color: var(--light);
@@ -115,6 +119,7 @@ main{
   transition: 0.4s;
 }
 
+/* :read-only가 아닐 때 pink색 */
 #tasks .task .content .text:not(:read-only)
 {
   color: var(--pink);
