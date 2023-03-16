@@ -1,21 +1,27 @@
+
+
+
 window.addEventListener('load',()=>{
   const form = document.querySelector('#new-task-form');
   const input = document.querySelector('#new-task-input');
   const list_el = document.querySelector('#tasks');
 
-  form.addEventListener('submit', (e)=> {
-    e.preventDefault();
+  const task_el = document.createElement("div");
+  const task_content_el = document.createElement("div");
+  const task_input_el = document.createElement("input");
+  const task_actions_el=document.createElement("div");
+  const task_edit_el=document.createElement("button");
+  task_edit_el.classList.add("edit");
+  task_edit_el.innerHTML="Edit";
 
-    const task = input.value;
+  const task_delete_el=document.createElement("button");
+  task_delete_el.classList.add("delete");
+  task_delete_el.innerHTML="Delete";
 
-    if(!task){
-      alert("추가할 내용이 없습니다.");
-      return;
-    }
-
+  setTask=function(task){
     const task_el = document.createElement("div");
     task_el.classList.add("task");
-  
+
 
     const task_content_el = document.createElement("div");
     task_content_el.classList.add("content");
@@ -49,12 +55,47 @@ window.addEventListener('load',()=>{
     task_actions_el.appendChild(task_delete_el);
 
     task_el.appendChild(task_actions_el);
-
     list_el.appendChild(task_el);
-  
+    
     input.value = "";
+  }
 
-    //추가
+  if(localStorage.getItem('key_num')!==0)
+  {
+    
+
+    for(var i =1; i<localStorage.length; i++)
+    {
+      setTask(localStorage.getItem(i));
+    }
+  }
+
+  form.addEventListener('submit', (e)=> {
+    e.preventDefault();
+
+    const task = input.value; // 전송한 내용
+
+    if(!task){
+      alert("추가할 내용이 없습니다.");
+      return;
+    }
+    
+    setTask(task);
+
+    if(localStorage.getItem('key_num')===null)
+    {
+      var save_key = 1;
+      localStorage.setItem('key_num',save_key);
+    }
+    else
+    {
+      var save_key=localStorage.getItem('key_num');
+      save_key++;
+    }
+    localStorage.setItem(save_key,task);// 내용 저장
+    localStorage.setItem('key_num',save_key);// 현재 키 번호 저장
+
+    //수정
     task_edit_el.addEventListener("click", () => {
       if(task_edit_el.innerText.toLowerCase()=="edit")
         {
