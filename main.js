@@ -1,6 +1,7 @@
 
 // Task 세팅 -> 세팅된 데이터가 같은 범주여야 하기에 수정 삭제 기능 포함 
 setTask=function(task,input,list_el){
+  //task라는 class이름을 가진 div 생성
   const task_el = document.createElement("div");
   task_el.classList.add("task");
 
@@ -41,20 +42,36 @@ setTask=function(task,input,list_el){
   
   //클릭 시 수정 -> 로컬스토리지에서도 수정 되도록 바꿔야함
   task_edit_el.addEventListener("click", ()=>{
-    editTask(task_edit_el,task_input_el);
+    editTask(input,task_edit_el,task_input_el);
+    
   });
 
 
   //클릭 시 삭제 -> 로컬스토리지에서도 삭제 되도록 바꿔야함
   task_delete_el.addEventListener("click", ()=> {
     // task_el.remove();
-    deleteTask(list_el,task_el);
+    deleteTask(input,list_el,task_el);
   });
 }
 
 //수정
-editTask=function(task_edit_el,task_input_el)
+editTask=function(input,task_edit_el,task_input_el)
+
   {
+    var originTask;
+    var loadStorageTask =localStorage.getItem('Task');
+    var parseStorageTask = JSON.parse(loadStorageTask);
+    parseStorageTask.forEach((value) => {
+      if(value == task_input_el.value)
+      {
+        originTask = value;
+      }
+    });
+
+    var originTask = task_input_el.value;
+    var editTask;
+    var temp=1;
+
     if(task_edit_el.innerText.toLowerCase()=="edit")
       {
         task_input_el.removeAttribute("readonly");
@@ -64,16 +81,32 @@ editTask=function(task_edit_el,task_input_el)
     else 
       {
         task_input_el.setAttribute("readonly","readonly");
-        task_input_el.focus();
-        task_edit_el.innerHTML="Edit";
+        input.focus();
+        editTask = task_input_el.value;
+        
+        var loadStorageTask =localStorage.getItem('Task');
+        var parseStorageTask = JSON.parse(loadStorageTask);
+        parseStorageTask.forEach((value,index) => {
+          if(value == originTask)
+          {
+            parseStorageTask.splice(index,1,editTask);
 
+            var s_EditStorageTask = JSON.stringify(parseStorageTask);
+            localStorage.setItem('Task',s_EditStorageTask);
+          }
+        });
+
+        task_edit_el.innerHTML="Edit";
+        
       } 
+      
   }
 
   //삭제
-  deleteTask = function(list_el,task_el)
+  deleteTask = function(input,list_el,task_el)
   {
     list_el.removeChild(task_el);
+    input.focus();
   }
 
 //페이지 로드가 끝나면 실행
@@ -82,6 +115,8 @@ window.addEventListener('load',()=>{
   const input = document.querySelector('#new-task-input');
   const list_el = document.querySelector('#tasks');
 
+  // 페이지 로드 후 입력창에 포커싱
+  input.focus();
   
   //로컬 스토리지에서 데이터로 세팅 -> 배열 객체로 변경해야함
   if(localStorage.getItem('key_num')!==0)
@@ -102,21 +137,25 @@ window.addEventListener('load',()=>{
       alert("추가할 일정이 없습니다.");
       return;
     }
-    
+
     setTask(task,input,list_el);
 
-    if(localStorage.getItem('key_num')===null)
+    // LocalStorage에 저장된 task 없으면 새로 추가 있으면 기존 배열에 새로운 task 추가 후 저장
+    if(localStorage.getItem('Task')===null)
     {
-      var save_key = 1;
-      localStorage.setItem('key_num',save_key);
+      var localTask=[];
+      localTask.push(task);
+      var jsonLocalTask= JSON.stringify(localTask);
+
+      localStorage.setItem('Task',jsonLocalTask);
     }
     else
     {
-      var save_key=localStorage.getItem('key_num');
-      save_key++;
+      var loadStorageTask =localStorage.getItem('Task');
+      var parseStorageTask = JSON.parse(loadStorageTask);
+      parseStorageTask.push(task);
+      var s_EditStorageTask = JSON.stringify(parseStorageTask);
+      localStorage.setItem('Task',s_EditStorageTask);
     }
-    localStorage.setItem(save_key,task);// 내용 저장
-    localStorage.setItem('key_num',save_key);// 현재 키 번호 저장
-
   })
 })
