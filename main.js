@@ -41,9 +41,9 @@ setTask=function(task,input,list_el){
   input.value = "";
   
   //클릭 시 수정 -> 로컬스토리지에서도 수정 되도록 바꿔야함
+
   task_edit_el.addEventListener("click", ()=>{
     editTask(input,task_edit_el,task_input_el);
-    
   });
 
 
@@ -58,36 +58,52 @@ setTask=function(task,input,list_el){
 editTask=function(input,task_edit_el,task_input_el)
 
   {
-    var originTask;
-    var loadStorageTask =localStorage.getItem('Task');
-    var parseStorageTask = JSON.parse(loadStorageTask);
-    parseStorageTask.forEach((value) => {
-      if(value == task_input_el.value)
+    var editKey='changing';
+    var editTask=editKey;
+    var btnStatus =task_edit_el.innerText.toLowerCase();
+
+    var checkCnt=1;
+    var checkDuplicate =localStorage.getItem('Task');
+    var parseCheckDuplicate = JSON.parse(checkDuplicate);
+    // 동시 수정 예외처리
+    parseCheckDuplicate.forEach((value) => {
+      if((value == editKey) && (btnStatus == "edit"))
       {
-        originTask = value;
+        checkCnt++;
       }
     });
 
-    var originTask = task_input_el.value;
-    var editTask;
-    var temp=1;
+    if(checkCnt > 1 )
+    {
+      alert('여러개의 일정을 동시에 수정할 수 없습니다.');
+      return;
+    }
+    else
+    {
+      if(btnStatus=="edit")
+        {
+          task_input_el.removeAttribute("readonly");
+          task_input_el.focus();
 
-    if(task_edit_el.innerText.toLowerCase()=="edit")
-      {
-        task_input_el.removeAttribute("readonly");
-        task_input_el.focus();
-        task_edit_el.innerHTML="Save";
-      }
-    else 
-      {
-        task_input_el.setAttribute("readonly","readonly");
-        input.focus();
-        editTask = task_input_el.value;
-        
+          editKey=task_input_el.value;
+
+          task_edit_el.innerHTML="Save";
+        }
+      else 
+        {
+          task_input_el.setAttribute("readonly","readonly");
+          input.focus();
+
+          editTask = task_input_el.value;
+
+          task_edit_el.innerHTML="Edit";
+          
+        } 
+
         var loadStorageTask =localStorage.getItem('Task');
         var parseStorageTask = JSON.parse(loadStorageTask);
         parseStorageTask.forEach((value,index) => {
-          if(value == originTask)
+          if(value == editKey)
           {
             parseStorageTask.splice(index,1,editTask);
 
@@ -95,10 +111,7 @@ editTask=function(input,task_edit_el,task_input_el)
             localStorage.setItem('Task',s_EditStorageTask);
           }
         });
-
-        task_edit_el.innerHTML="Edit";
-        
-      } 
+    }
       
   }
 
