@@ -50,7 +50,7 @@ setTask=function(task,input,list_el){
   //클릭 시 삭제 -> 로컬스토리지에서도 삭제 되도록 바꿔야함
   task_delete_el.addEventListener("click", ()=> {
     // task_el.remove();
-    deleteTask(input,list_el,task_el);
+    deleteTask(input,task_input_el,list_el,task_el);
   });
 }
 
@@ -116,11 +116,25 @@ editTask=function(input,task_edit_el,task_input_el)
   }
 
   //삭제
-  deleteTask = function(input,list_el,task_el)
+  deleteTask = function(input,task_input_el,list_el,task_el)
   {
-    list_el.removeChild(task_el);
-    input.focus();
+    var deleteStorageTask = localStorage.getItem('Task');
+    var pareseDeleteStorageTask = JSON.parse(deleteStorageTask);
+
+    pareseDeleteStorageTask.forEach((value,index)=>{
+      if(value == task_input_el.value)
+      {
+        pareseDeleteStorageTask.splice(index,1);
+        var s_DeleteStorageTask = JSON.stringify(pareseDeleteStorageTask);
+        localStorage.setItem('Task',s_DeleteStorageTask);
+        
+        list_el.removeChild(task_el);
+        input.focus();
+      }
+    });
   }
+
+
 
 //페이지 로드가 끝나면 실행
 window.addEventListener('load',()=>{
