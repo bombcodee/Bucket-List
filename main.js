@@ -167,8 +167,7 @@ window.addEventListener('load',()=>{
       alert("추가할 버킷리스트가 없습니다.");
       return;
     }
-    
-    
+  
     // LocalStorage에 저장된 task 없으면 새로 추가 있으면 기존 배열에 새로운 task 추가 후 저장
     if(localStorage.getItem('Task')===null)
     {
