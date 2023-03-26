@@ -153,7 +153,7 @@ window.addEventListener('load',()=>{
 
     parseGetStorageTask.forEach((value)=>{
       setTask(value,input,list_el);
-    });
+    })
   }
 
   //신규 task 추가
@@ -162,29 +162,42 @@ window.addEventListener('load',()=>{
 
     const task = input.value; // 전송한 내용
 
+    // 예외처리들
     if(!task){
-      alert("추가할 일정이 없습니다.");
+      alert("추가할 버킷리스트가 없습니다.");
       return;
     }
-
-    setTask(task,input,list_el);
-
+    
+    
     // LocalStorage에 저장된 task 없으면 새로 추가 있으면 기존 배열에 새로운 task 추가 후 저장
     if(localStorage.getItem('Task')===null)
     {
       var localTask=[];
       localTask.push(task);
       var jsonLocalTask= JSON.stringify(localTask);
-
+      
       localStorage.setItem('Task',jsonLocalTask);
     }
     else
     {
       var loadStorageTask =localStorage.getItem('Task');
       var parseStorageTask = JSON.parse(loadStorageTask);
+      
+      for(var i=0; i<parseStorageTask.length; i++)
+      {
+        if(parseStorageTask[i] == task)
+        {
+          alert("중복된 내용입니다. \n새로운 버킷리스트를 추가해주세요!");
+          return 'retry';
+        }
+      }
+      
       parseStorageTask.push(task);
       var s_EditStorageTask = JSON.stringify(parseStorageTask);
       localStorage.setItem('Task',s_EditStorageTask);
     }
+
+    setTask(task,input,list_el);
+
   })
 })
