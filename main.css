@@ -6,31 +6,51 @@
   --light: #EEE;
   --pink: #EC4899;
   --purple: #8B5CF6;
+  --blue: #3f81e6;
 }
 
 *{
     box-sizing: border-box;
     margin: 0;
-    font-family: 'Fira sans', sans-serif;
+    font-family: 'Nanum Pen Script', cursive;
 }
 
 body {
-  display: flex;
+
   flex-direction: column;
   min-height: 100vh;
-  background:  var(--dark);
+  background:  var(--purple);
+  background-image: linear-gradient(to right, var(--blue), var(--purple));
   color: #FFF;
 }
 
+body .body-box{
+  
+  width: 70%;
+  max-width: 1000px;
+  min-height: 1000px; 
+  background-color: var(--dark);
+  
+  margin-top: 5rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  margin-bottom: 60px;
+
+}
+
 header{
-  padding: 2rem 1rem;
+  padding: 2rem 2.5rem;
+  margin-top: 5rem;
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
+
+  size: 2rem;
 }
 
 header h1 {
-  font-size: 2.5rem;
+  font-size: 4.5rem;
   font-weight: 300;
   color: var(--gray);
   margin-bottom: 1rem;
@@ -54,7 +74,7 @@ input, button {
   border-radius: 1rem;
   margin-right: 1rem;
   color: var(--light);
-  font-size:  1.25rem;
+  font-size:  1.8rem;
 }
 
 #new-task-input::placeholder {
@@ -63,7 +83,7 @@ input, button {
 
 #new-task-submit {
 color: var(--pink);
-font-size:  1.25rem;
+font-size:  1.8rem;
 font-weight:  700;
 background-image: linear-gradient(to right, var(--pink), var(--purple));
 -webkit-background-clip: text;
@@ -72,16 +92,19 @@ cursor: pointer;
 transition: 0.4s;
 }
 
+/* 마우스 올릴 시 변환 효과 */
 #new-task-submit:hover{
   opacity: 0.7;
 }
+
+/* 마우스 클릭 시 변환 효과 */
 #new-task-submit:active{
   opacity: 0.3;
 }
 
 main{
   flex: 1 1 0%;
-  padding:  2rem 1rem;
+  padding:  2rem 1.5rem;
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
@@ -92,7 +115,7 @@ main{
 }
 
 .task-list h2{
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 300;
   color: var(--gray);
   margin-bottom: 1rem;
@@ -101,6 +124,7 @@ main{
 #tasks .task {
   display: flex;
   justify-content: space-between;
+  font-size:;
   background-color: var(--darkest);
   padding:  1rem;
   border-radius: 1rem;
@@ -113,7 +137,7 @@ main{
 
 #tasks .task .content .text {
   color: var(--light);
-  font-size:  1.125rem;
+  font-size:  1.5rem;
   width: 100%;
   display: block;
   transition: 0.4s;
@@ -133,7 +157,7 @@ main{
 #tasks .task .actions button {
   cursor: pointer;
   margin:  0 0.5rem;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 700;
   text-transform: uppercase;
 }

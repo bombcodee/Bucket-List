@@ -145,13 +145,15 @@ window.addEventListener('load',()=>{
   // 페이지 로드 후 입력창에 포커싱
   input.focus();
   
-  //로컬 스토리지에서 데이터로 세팅 -> 배열 객체로 변경해야함
-  if(localStorage.getItem('key_num')!==0)
+  //로컬 스토리지에서 데이터로 세팅 
+  if(localStorage.getItem('Task')!==null)
   {
-    for(var i =1; i<localStorage.length; i++)
-    {
-      setTask(localStorage.getItem(i),input,list_el);
-    }
+    var getStorageTask = localStorage.getItem('Task');
+    var parseGetStorageTask = JSON.parse(getStorageTask);
+
+    parseGetStorageTask.forEach((value)=>{
+      setTask(value,input,list_el);
+    });
   }
 
   //신규 task 추가

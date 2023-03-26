@@ -4,52 +4,39 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task List 2023</title>
 
+  <title>Task List 2023</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-  <header>
-    <h1>Task List 2023</h1>
-    <form id="new-task-form">
-      <input 
+  <div class="body-box">
+
+    <header>
+      <h1> 2023 버킷리스트</h1>
+      <form id="new-task-form">
+        <input 
         type="text"
         id="new-task-input"
-        placeholder="What do you have planned?"/>
-      <input
+        placeholder=" 이루고 싶은 모든 것을 적어봐!"/>
+        <input
         type="submit"
         id="new-task-submit"
         value="Add task"/>
-    </form>
-  </header>  
-
-  <main>
-
-    <section class="task-list">
-      <h2>Tasks</h2>
-
-      <div id="tasks">
-
-          <!-- <div class="task">
-                  <div class="content">
-                    <input 
-                      type="text"
-                      class="text"
-                      value="My shiny task"
-                      readonly
-                    >
-                  </div>
-                  
-                  <div class="actions">
-                    <button class="edit">Edit</button>
-                    <button class="delete">Delete</button>
-                  </div>
-                </div>   -->
-
-      </div>
-    </section>
-  </main>
-
+      </form>
+    </header>  
+    
+    <main>
+      <section class="task-list">
+        <h2>Tasks</h2>
+        <div id="tasks">
+        </div>
+      </section>
+    </main>
+    
+  </div>
   <script src="./main.js"></script>
 </body>
 </html>
